@@ -42,11 +42,11 @@ updated_damages = convert_damages_data(damages)
 
 # 2 
 # Create a Table
-def create_dictionary(names, months, years, areas_affected, max_sustained_winds, deaths, updated_damages):
+def create_dictionary(names, months, years, max_sustained_winds,areas_affected, updated_damages, deaths):
     hurricanes={}
     num_of_hurricanes=len(names)
     for i in range(num_of_hurricanes):
-        hurricanes[names[i]]={"Name": names[i], "Month":months[i], "Year":years[i], "Max Sustained Wind": max_sustained_winds[i], "Areas Affected": areas_affected[i], "Damages": updated_damages[i], "Deaths":deaths[i]}
+        hurricanes[names[i]]={"Name": names[i], "Month":months[i], "Year":years[i], "Max Sustained Wind": max_sustained_winds[i],"Areas Affected": areas_affected[i], "Damages": updated_damages[i], "Deaths":deaths[i]}
     return hurricanes
 
 
@@ -73,30 +73,46 @@ print(hurricanes_by_year[1932])
 # 4
 # Counting Damaged Areas
 def count_affected_areas(hurricanes):
-  """Find the count of affected areas across all hurricanes and return as a dictionary with the affected areas as keys."""
-  affected_areas_count = {}
-  for cane in hurricanes:
-    for area in hurricanes[cane]['Areas Affected']:
-      if area not in affected_areas_count:
-        affected_areas_count[area] = 1
-      else:
-        affected_areas_count[area] += 1
-  return affected_areas_count
+    affected_areas_count={}
+    for cane in hurricanes:
+        for area in hurricanes[cane]["Areas Affected"]:
+            if area not in affected_areas_count:
+                affected_areas_count[area]=1
+            else:
+                affected_areas_count[area]+=1
+    return affected_areas_count
     
 # create dictionary of areas to store the number of hurricanes involved in
 affected_areas_count=count_affected_areas(hurricanes)
 
 # 5 
 # Calculating Maximum Hurricane Count
+def most_affected_areas(affected_areas_count):
+    max_area="Central America"
+    max_area_count=0
+    for area in affected_areas_count:
+        if affected_areas_count[area]>max_area_count:
+            max_area=area
+            max_area_count=affected_areas_count[area]
+    return max_area, max_area_count
 
 # find most frequently affected area and the number of hurricanes involved in
-
+max_area, max_area_count=most_affected_areas(affected_areas_count)
+print(max_area, max_area_count)
 
 # 6
 # Calculating the Deadliest Hurricane
-
+def highest_mortality(hurricanes):
+  max_mortality_cane = 'Cuba I'
+  max_mortality = 0
+  for cane in hurricanes:
+    if hurricanes[cane]['Deaths'] > max_mortality:
+      max_mortality_cane = cane
+      max_mortality = hurricanes[cane]['Deaths']
+  return max_mortality_cane, max_mortality
 # find highest mortality hurricane and the number of deaths
-
+max_mortality_cane, max_mortality=highest_mortality(hurricanes)
+print(max_mortality_cane, max_mortality)
 # 7
 # Rating Hurricanes by Mortality
 
